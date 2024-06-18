@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BookServiceImpl implements BookService {
+
     private BookRepository bookRepository;
 
     @Autowired
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
+
     @Override
     public Book save(Book book) {
         return bookRepository.save(book);
