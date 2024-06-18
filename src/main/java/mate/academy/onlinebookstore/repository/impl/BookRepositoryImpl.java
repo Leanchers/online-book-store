@@ -1,8 +1,8 @@
 package mate.academy.onlinebookstore.repository.impl;
 
 import java.util.List;
-import mate.academy.bookstore.model.Book;
-import mate.academy.bookstore.repository.BookRepository;
+import mate.academy.onlinebookstore.model.Book;
+import mate.academy.onlinebookstore.repository.BookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
