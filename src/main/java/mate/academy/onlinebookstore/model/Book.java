@@ -6,12 +6,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +20,7 @@ public class Book {
     private String title;
     @Column(nullable = false)
     private String author;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
     @Column(nullable = false)
     private BigDecimal price;

@@ -1,6 +1,7 @@
 package mate.academy.onlinebookstore.repository.impl;
 
 import java.util.List;
+import mate.academy.onlinebookstore.exception.DataProcessingException;
 import mate.academy.onlinebookstore.model.Book;
 import mate.academy.onlinebookstore.repository.BookRepository;
 import org.hibernate.Session;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
-
     private final SessionFactory sessionFactory;
 
     @Autowired
@@ -33,7 +33,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert book into DB: " + book);
+            throw new DataProcessingException("Can't insert book into DB: " + book, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -46,7 +46,7 @@ public class BookRepositoryImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("SELECT b FROM Book b", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can't get all books from DB", e);
+            throw new DataProcessingException("Can't get all books from DB", e);
         }
     }
 }

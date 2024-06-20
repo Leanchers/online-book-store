@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
-
     @Autowired
     public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;

@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class OnlineBookStoreApplication {
-
     @Autowired
     private BookService bookService;
 
