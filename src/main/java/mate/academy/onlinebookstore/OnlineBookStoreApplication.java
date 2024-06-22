@@ -27,7 +27,7 @@ public class OnlineBookStoreApplication {
             book.setPrice(BigDecimal.valueOf(199));
             book.setIsbn("12344");
 
-            bookService.save(book);
+            //bookService.save(book);
             System.out.println("before");
             System.out.println(bookService.findAll());
             System.out.println("AFTER");
