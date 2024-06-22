@@ -1,9 +1,11 @@
 package mate.academy.onlinebookstore.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.BookDto;
 import mate.academy.onlinebookstore.dto.CreateBookRequestDto;
+import mate.academy.onlinebookstore.exception.EntityNotFoundException;
 import mate.academy.onlinebookstore.mapper.BookMapper;
 import mate.academy.onlinebookstore.model.Book;
 import mate.academy.onlinebookstore.repository.BookRepository;
@@ -29,5 +31,13 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll().stream()
             .map(bookMapper::toDto)
             .toList();
+    }
+
+    @Override
+    public BookDto findById(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow(
+            () -> new EntityNotFoundException("Can't find book by id" + id)
+        );
+        return bookMapper.toDto(book);
     }
 }
