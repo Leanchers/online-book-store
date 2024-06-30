@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PriceSpecificationProvider implements SpecificationProvider<Book> {
-    private static final String KEY = "price";
+    private static final String PRICE_COLUMN_NAME = "price";
 
     @Override
     public String getKey() {
-        return KEY;
+        return PRICE_COLUMN_NAME;
     }
 
     @Override
@@ -23,12 +23,12 @@ public class PriceSpecificationProvider implements SpecificationProvider<Book> {
             String toPrice = params[1];
             Predicate predicate = criteriaBuilder.conjunction();
             if (fromPrice != null) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.ge(root.get(KEY),
-                    new BigDecimal(fromPrice)));
+                predicate = criteriaBuilder.and(predicate,
+                    criteriaBuilder.ge(root.get(PRICE_COLUMN_NAME), new BigDecimal(fromPrice)));
             }
             if (toPrice != null) {
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.le(root.get(KEY),
-                    new BigDecimal(toPrice)));
+                predicate = criteriaBuilder.and(predicate,
+                    criteriaBuilder.le(root.get(PRICE_COLUMN_NAME), new BigDecimal(toPrice)));
             }
             return predicate;
         };
