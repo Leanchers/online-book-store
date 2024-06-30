@@ -2,6 +2,7 @@ package mate.academy.onlinebookstore.repository.book;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import mate.academy.onlinebookstore.exception.SpecificationProviderNotFoundException;
 import mate.academy.onlinebookstore.model.Book;
 import mate.academy.onlinebookstore.repository.SpecificationProvider;
 import mate.academy.onlinebookstore.repository.SpecificationProviderManager;
@@ -17,7 +18,7 @@ public class BookSpecificationProviderManager implements SpecificationProviderMa
         return bookSpecificationProviders.stream()
             .filter(p -> p.getKey().equals(key))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Can't find correct "
+            .orElseThrow(() -> new SpecificationProviderNotFoundException("Can't find correct "
                 + "specification provider for key " + key));
     }
 }
