@@ -54,7 +54,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookDto> search(BookSearchParametersDto searchParameters) {
+    public List<BookDto> search(@Valid BookSearchParametersDto searchParameters) {
         return bookService.search(searchParameters);
     }
 }
