@@ -4,11 +4,11 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import mate.academy.onlinebookstore.dto.BookSearchParametersDto;
 
-public class PriceRangeValidator implements ConstraintValidator<ValidPriceRange,
+public class PriceValidator implements ConstraintValidator<ValidPrice,
             BookSearchParametersDto> {
 
     @Override
-    public void initialize(ValidPriceRange constraintAnnotation) {
+    public void initialize(ValidPrice constraintAnnotation) {
     }
 
     @Override

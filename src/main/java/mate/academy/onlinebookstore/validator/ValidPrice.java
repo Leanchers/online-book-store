@@ -7,10 +7,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = PriceRangeValidator.class)
+@Constraint(validatedBy = PriceValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPriceRange {
+public @interface ValidPrice {
     String message() default "toPrice must be greater than fromPrice";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

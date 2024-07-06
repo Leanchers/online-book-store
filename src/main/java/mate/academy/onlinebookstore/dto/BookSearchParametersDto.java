@@ -2,10 +2,10 @@ package mate.academy.onlinebookstore.dto;
 
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
-import mate.academy.onlinebookstore.validator.ValidPriceRange;
+import mate.academy.onlinebookstore.validator.ValidPrice;
 import org.hibernate.validator.constraints.Length;
 
-@ValidPriceRange
+@ValidPrice
 public record BookSearchParametersDto(
         String title,
         String[] authors,
