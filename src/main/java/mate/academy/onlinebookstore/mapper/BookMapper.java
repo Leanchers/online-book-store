@@ -3,6 +3,7 @@ package mate.academy.onlinebookstore.mapper;
 import mate.academy.onlinebookstore.config.MapperConfig;
 import mate.academy.onlinebookstore.dto.BookDto;
 import mate.academy.onlinebookstore.dto.CreateBookRequestDto;
+import mate.academy.onlinebookstore.dto.UpdateBookRequestDto;
 import mate.academy.onlinebookstore.model.Book;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
@@ -16,5 +17,5 @@ public interface BookMapper {
     Book toModel(CreateBookRequestDto requestDto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateModel(@MappingTarget Book book, CreateBookRequestDto requestDto);
+    void updateModel(@MappingTarget Book book, UpdateBookRequestDto requestDto);
 }
