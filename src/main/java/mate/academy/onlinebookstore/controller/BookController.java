@@ -32,7 +32,6 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Hidden
     public BookDto save(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
@@ -50,7 +49,6 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    @Hidden
     public BookDto updateById(@PathVariable Long id,
             @RequestBody @Valid UpdateBookRequestDto requestDto) {
         return bookService.updateById(id, requestDto);
@@ -58,7 +56,6 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Hidden
     public void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
