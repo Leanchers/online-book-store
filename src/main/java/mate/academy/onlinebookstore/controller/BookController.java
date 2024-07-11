@@ -1,6 +1,5 @@
 package mate.academy.onlinebookstore.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,7 +10,9 @@ import mate.academy.onlinebookstore.dto.BookSearchParametersDto;
 import mate.academy.onlinebookstore.dto.CreateBookRequestDto;
 import mate.academy.onlinebookstore.dto.UpdateBookRequestDto;
 import mate.academy.onlinebookstore.service.BookService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Get a list of all available books")
-    public List<BookDto> findAll(Pageable pageable) {
+    public List<BookDto> findAll(@ParameterObject @PageableDefault Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
@@ -64,7 +65,7 @@ public class BookController {
     @Operation(summary = "Get all searched books",
             description = "Get a list of all searched books.")
     public List<BookDto> search(@Valid BookSearchParametersDto searchParameters,
-            Pageable pageable) {
+            @ParameterObject @PageableDefault Pageable pageable) {
         return bookService.search(searchParameters, pageable);
     }
 }
