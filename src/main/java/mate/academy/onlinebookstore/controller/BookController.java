@@ -1,5 +1,7 @@
 package mate.academy.onlinebookstore.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,9 @@ import mate.academy.onlinebookstore.dto.BookSearchParametersDto;
 import mate.academy.onlinebookstore.dto.CreateBookRequestDto;
 import mate.academy.onlinebookstore.dto.UpdateBookRequestDto;
 import mate.academy.onlinebookstore.service.BookService;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Book management", description = "Endpoints for managing product")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/books")
@@ -32,13 +38,15 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get book by id", description = "Get a book by id")
     public BookDto findById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
     @GetMapping
-    public List<BookDto> findAll() {
-        return bookService.findAll();
+    @Operation(summary = "Get all books", description = "Get a list of all available books")
+    public List<BookDto> findAll(@ParameterObject @PageableDefault Pageable pageable) {
+        return bookService.findAll(pageable);
     }
 
     @PutMapping("/{id}")
@@ -54,7 +62,10 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookDto> search(@Valid BookSearchParametersDto searchParameters) {
-        return bookService.search(searchParameters);
+    @Operation(summary = "Get all searched books",
+            description = "Get a list of all searched books.")
+    public List<BookDto> search(@Valid BookSearchParametersDto searchParameters,
+            @ParameterObject @PageableDefault Pageable pageable) {
+        return bookService.search(searchParameters, pageable);
     }
 }
