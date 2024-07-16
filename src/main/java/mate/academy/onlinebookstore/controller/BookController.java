@@ -9,7 +9,7 @@ import mate.academy.onlinebookstore.dto.book.BookDto;
 import mate.academy.onlinebookstore.dto.book.BookSearchParametersDto;
 import mate.academy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mate.academy.onlinebookstore.dto.book.UpdateBookRequestDto;
-import mate.academy.onlinebookstore.service.BookService;
+import mate.academy.onlinebookstore.service.book.BookService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
