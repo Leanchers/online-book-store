@@ -5,7 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import mate.academy.onlinebookstore.validator.FieldMatch;
 
+@FieldMatch(
+        field = "password",
+        repeatField = "repeatPassword",
+        message = "Password and repeat password should be equals")
 @Getter
 @Setter
 public class UserRegistrationRequestDto {
