@@ -2,7 +2,7 @@ package mate.academy.onlinebookstore.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import mate.academy.onlinebookstore.dto.BookSearchParametersDto;
+import mate.academy.onlinebookstore.dto.book.BookSearchParametersDto;
 
 public class PriceValidator implements ConstraintValidator<ValidPrice,
             BookSearchParametersDto> {
