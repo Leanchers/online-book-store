@@ -36,7 +36,11 @@ public class SecurityConfig {
                         "/auth/**",
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        "/error")
+                        "/error"
+                    )
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             )
             .httpBasic(withDefaults())
             .sessionManagement(
