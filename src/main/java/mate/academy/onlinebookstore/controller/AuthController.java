@@ -11,7 +11,6 @@ import mate.academy.onlinebookstore.dto.user.UserResponseDto;
 import mate.academy.onlinebookstore.exception.RegistrationException;
 import mate.academy.onlinebookstore.security.AuthenticationService;
 import mate.academy.onlinebookstore.service.user.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +30,8 @@ public class AuthController {
             throws RegistrationException {
         return userService.register(requestDto);
     }
+
+    @Operation(summary = "Login", description = "Return JWT-token after successful login")
     @PostMapping("/login")
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
