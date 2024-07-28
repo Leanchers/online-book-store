@@ -1,4 +1,4 @@
-package mate.academy.onlinebookstore.service.book;
+package mate.academy.onlinebookstore.service.book.impl;
 
 import java.util.List;
 import mate.academy.onlinebookstore.dto.book.BookDto;
