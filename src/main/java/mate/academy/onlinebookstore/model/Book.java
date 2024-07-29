@@ -41,9 +41,9 @@ public class Book {
     private boolean isDeleted = false;
     @ManyToMany
     @JoinTable(
-        name = "books_categories",
-        joinColumns = @JoinColumn(name = "book_id"),
-        inverseJoinColumns = @JoinColumn(name = "categories id")
+            name = "books_categories",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
 }
