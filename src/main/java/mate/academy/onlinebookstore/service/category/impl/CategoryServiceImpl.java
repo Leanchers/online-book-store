@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.category.CategoryDto;
 import mate.academy.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.onlinebookstore.dto.category.UpdateCategoryRequestDto;
+import mate.academy.onlinebookstore.exception.EntityNotFoundException;
 import mate.academy.onlinebookstore.mapper.CategoryMapper;
 import mate.academy.onlinebookstore.model.Category;
 import mate.academy.onlinebookstore.repository.category.CategoryRepository;
@@ -51,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private Category getCategory(Long id) {
         return categoryRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("Can't find category by id: " + id)
+            () -> new EntityNotFoundException("Can't find category by id: " + id)
         );
     }
 }
