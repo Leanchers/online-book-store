@@ -3,6 +3,7 @@ package mate.academy.onlinebookstore.service.book.impl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.book.BookDto;
+import mate.academy.onlinebookstore.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.onlinebookstore.dto.book.BookSearchParametersDto;
 import mate.academy.onlinebookstore.dto.book.CreateBookRequestDto;
 import mate.academy.onlinebookstore.dto.book.UpdateBookRequestDto;
@@ -67,4 +68,12 @@ public class BookServiceImpl implements BookService {
             .map(bookMapper::toDto)
             .toList();
     }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBookByCategoryId(Pageable pageable, Long categoryId) {
+        return bookRepository.findAllByCategoryId(pageable, categoryId).stream()
+            .map(bookMapper::toDtoWithoutCategories)
+            .toList();
+    }
+
 }

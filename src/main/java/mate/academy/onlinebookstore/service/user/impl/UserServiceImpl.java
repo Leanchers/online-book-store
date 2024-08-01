@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
                 .format("User with this email: %s already exists", requestDto.getEmail()));
         }
         User user = userMapper.toModel(requestDto);
-        user.setRoles(Set.of(roleRepository.findByName(RoleName.USER)
+        user.setRoles(Set.of(roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find role by name: "
-                        + RoleName.USER))));
+                        + RoleName.ROLE_USER))));
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         return userMapper.toDto(userRepository.save(user));
     }
