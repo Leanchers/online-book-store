@@ -1,5 +1,6 @@
 package mate.academy.onlinebookstore.service.shoppingcart.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mate.academy.onlinebookstore.dto.shoppingcart.ShoppingCartDto;
@@ -16,9 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    private ShoppingCartRepository shoppingCartRepository;
-    private ShoppingCartMapper shoppingCartMapper;
-    private CartItemService cartItemService;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartMapper shoppingCartMapper;
+    private final CartItemService cartItemService;
 
     @Override
     public void createShoppingCart(User user) {
@@ -32,6 +33,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(findShoppingCartByUserId(userId));
     }
 
+    @Transactional
     @Override
     public ShoppingCartDto addCartItem(CreateCartItemRequestDto requestDto, Long userId) {
         ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
@@ -41,19 +43,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartDto updateCartItem(Long itemId, UpdateCartItemRequestDto requestDto,
-        Long userId) {
+            Long userId) {
         ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
         cartItemService.updateCartItem(shoppingCart, requestDto, itemId);
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
+    @Transactional
     @Override
-    public ShoppingCartDto deleteCartItem(Long itemId, Long userId) {
+    public void deleteCartItem(Long itemId, Long userId) {
         ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
         cartItemService.deleteCartItem(shoppingCart, itemId);
-        return shoppingCartMapper.toDto(shoppingCart);
     }
-
 
     private ShoppingCart findShoppingCartByUserId(Long userId) {
         return shoppingCartRepository.findByUserId(userId).orElseThrow(

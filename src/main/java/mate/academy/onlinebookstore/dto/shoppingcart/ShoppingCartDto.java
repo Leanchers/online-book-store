@@ -1,11 +1,13 @@
 package mate.academy.onlinebookstore.dto.shoppingcart;
 
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-public record ShoppingCartDto(
-    Long id,
-    Long userId,
-    List<CartItemDto> items
-) {
-
+@Getter
+@Setter
+public class ShoppingCartDto {
+    private Long id;
+    private Long userId;
+    private List<CartItemDto> cartItems;
 }
