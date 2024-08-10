@@ -1,5 +1,6 @@
 package mate.academy.onlinebookstore.service.shoppingcart.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mate.academy.onlinebookstore.dto.shoppingcart.UpdateCartItemRequestDto;
@@ -19,6 +20,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemMapper cartItemMapper;
     private final BookRepository bookRepository;
 
+    @Transactional
     @Override
     public void createCartItem(ShoppingCart shoppingCart,
             CreateCartItemRequestDto requestDto) {
@@ -26,10 +28,8 @@ public class CartItemServiceImpl implements CartItemService {
             throw new EntityNotFoundException("Book with id: " + requestDto.bookId()
                 + " not found");
         }
-        CartItem cartItem = shoppingCart.getCartItems().stream()
-                .filter(item -> item.getBook().getId().equals(requestDto.bookId()))
-                .findFirst()
-                .orElse(null);
+        CartItem cartItem = cartItemRepository.findByShoppingCartIdAndBookId(shoppingCart.getId(),
+            requestDto.bookId()).orElse(null);
         if (cartItem != null) {
             cartItem.setQuantity(cartItem.getQuantity() + requestDto.quantity());
         } else {
@@ -40,6 +40,7 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemRepository.save(cartItem);
     }
 
+    @Transactional
     @Override
     public void updateCartItem(ShoppingCart shoppingCart, UpdateCartItemRequestDto requestDto,
             Long itemId) {
@@ -48,6 +49,7 @@ public class CartItemServiceImpl implements CartItemService {
         cartItemRepository.save(cartItem);
     }
 
+    @Transactional
     @Override
     public void deleteCartItem(ShoppingCart shoppingCart, Long itemId) {
         CartItem cartItem = getCartItem(shoppingCart, itemId);
@@ -55,13 +57,10 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     private CartItem getCartItem(ShoppingCart shoppingCart, Long itemId) {
-        CartItem cartItem = cartItemRepository.findById(itemId)
+        return cartItemRepository.findByIdAndShoppingCartId(itemId,
+                shoppingCart.getId())
                 .orElseThrow(
-                    () -> new EntityNotFoundException("Can't find item with id: " + itemId));
-        if (!cartItem.getShoppingCart().getId().equals(shoppingCart.getId())) {
-            throw new EntityNotFoundException("Can't find item with id: " + itemId
-                + " in shopping cart with id: " + shoppingCart.getId());
-        }
-        return cartItem;
+                    () -> new EntityNotFoundException("Can't find item with id: " + itemId
+                        + " in shopping cart with id: " + shoppingCart.getId()));
     }
 }
