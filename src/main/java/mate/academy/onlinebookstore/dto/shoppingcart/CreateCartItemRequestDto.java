@@ -9,7 +9,6 @@ public record CreateCartItemRequestDto(
         @Positive
         @Digits(integer = 19, fraction = 0)
         Long bookId,
-        @NotNull
         @Positive
         int quantity
 ) {
