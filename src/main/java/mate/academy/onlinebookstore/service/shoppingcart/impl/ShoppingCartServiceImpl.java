@@ -1,6 +1,7 @@
 package mate.academy.onlinebookstore.service.shoppingcart.impl;
 
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.shoppingcart.CreateCartItemRequestDto;
 import mate.academy.onlinebookstore.dto.shoppingcart.ShoppingCartDto;
@@ -46,9 +47,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             throw new EntityNotFoundException("Book with id: " + requestDto.bookId()
                 + " not found");
         }
-        CartItem cartItem = cartItemRepository.findByShoppingCartIdAndBookId(shoppingCart.getId(),
-                requestDto.bookId()).orElse(null);
-        if (cartItem != null) {
+        Optional<CartItem> optionalCartItem = cartItemRepository.findByShoppingCartIdAndBookId(
+                shoppingCart.getId(), requestDto.bookId());
+        CartItem cartItem;
+        if (optionalCartItem.isPresent()) {
+            cartItem = optionalCartItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + requestDto.quantity());
         } else {
             cartItem = cartItemMapper.toModel(requestDto);
@@ -91,5 +94,4 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 () -> new EntityNotFoundException("Can't find item with id: " + itemId
                     + " in shopping cart with id: " + shoppingCart.getId()));
     }
-
 }
