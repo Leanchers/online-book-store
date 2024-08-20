@@ -17,8 +17,8 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE roles SET is_deleted = true WHERE id = ?")
-@SQLRestriction(value = "is_deleted=false")
+@SQLDelete(sql = "UPDATE roles SET is_deleted = TRUE WHERE id = ?")
+@SQLRestriction(value = "is_deleted=FALSE")
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
     @Id
