@@ -1,21 +1,17 @@
 package mate.academy.onlinebookstore.service.order.impl;
 
 import jakarta.transaction.Transactional;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.order.CreateOrderRequestDto;
 import mate.academy.onlinebookstore.dto.order.OrderDto;
 import mate.academy.onlinebookstore.dto.order.OrderItemDto;
 import mate.academy.onlinebookstore.dto.order.UpdateOrderRequestDto;
 import mate.academy.onlinebookstore.exception.EntityNotFoundException;
+import mate.academy.onlinebookstore.exception.OrderProcessingException;
 import mate.academy.onlinebookstore.mapper.OrderItemMapper;
 import mate.academy.onlinebookstore.mapper.OrderMapper;
 import mate.academy.onlinebookstore.model.Order;
-import mate.academy.onlinebookstore.model.Order.Status;
-import mate.academy.onlinebookstore.model.OrderItem;
 import mate.academy.onlinebookstore.model.ShoppingCart;
 import mate.academy.onlinebookstore.repository.order.OrderItemRepository;
 import mate.academy.onlinebookstore.repository.order.OrderRepository;
@@ -38,20 +34,9 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(CreateOrderRequestDto requestDto, Long userId) {
         ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
         if (shoppingCart.getCartItems().isEmpty()) {
-            throw new EntityNotFoundException("Shopping cart is empty");
+            throw new OrderProcessingException("Shopping cart is empty");
         }
-        Order order = new Order();
-        order.setUser(shoppingCart.getUser());
-        order.setStatus(Status.PENDING);
-        order.setOrderItems(shoppingCart.getCartItems().stream()
-                .map(orderItemMapper::toOrderItem)
-                .collect(Collectors.toSet()));
-        order.getOrderItems().forEach(orderItem -> orderItem.setOrder(order));
-        order.setTotal(order.getOrderItems().stream()
-                .map(OrderItem::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add));
-        order.setOrderDate(LocalDateTime.now());
-        order.setShippingAddress(requestDto.shippingAddress());
+        Order order = orderMapper.toModel(requestDto, shoppingCart);
         orderRepository.save(order);
         orderItemRepository.saveAll(order.getOrderItems());
         shoppingCart.getCartItems().clear();
@@ -69,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto updateStatus(UpdateOrderRequestDto requestDto, Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(()
-                -> new EntityNotFoundException("Order not found"));
+                -> new OrderProcessingException("Order not found"));
         order.setStatus(requestDto.status());
         return orderMapper.toDto(orderRepository.save(order));
     }
@@ -77,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderItemDto> getAllOrderItems(Long orderId, Long userId) {
         return orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(()
-                -> new EntityNotFoundException("Order not found")).getOrderItems().stream()
+                -> new OrderProcessingException("Order not found")).getOrderItems().stream()
             .map(orderItemMapper::toDto)
             .toList();
     }
@@ -86,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderItemDto getOrderItem(Long orderItemId, Long orderId, Long userId) {
         return orderItemMapper.toDto(orderItemRepository
             .findByIdAndOrderIdAndOrderUserId(orderItemId, orderId, userId)
-            .orElseThrow(() -> new EntityNotFoundException("Order's item not found")));
+            .orElseThrow(() -> new OrderProcessingException("Order's item not found")));
     }
 
     private ShoppingCart findShoppingCartByUserId(Long userId) {
