@@ -28,8 +28,8 @@ public class ShoppingCart {
     @MapsId
     private User user;
     @OneToMany(mappedBy = "shoppingCart",
-        orphanRemoval = true,
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<CartItem> cartItems;
     @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isDeleted = false;

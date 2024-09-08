@@ -44,12 +44,12 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(shoppingCart.getUser());
         order.setStatus(Status.PENDING);
         order.setOrderItems(shoppingCart.getCartItems().stream()
-            .map(orderItemMapper::toOrderItem)
-            .collect(Collectors.toSet()));
+                .map(orderItemMapper::toOrderItem)
+                .collect(Collectors.toSet()));
         order.getOrderItems().forEach(orderItem -> orderItem.setOrder(order));
         order.setTotal(order.getOrderItems().stream()
-            .map(OrderItem::getPrice)
-            .reduce(BigDecimal.ZERO, BigDecimal::add));
+                .map(OrderItem::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
         order.setOrderDate(LocalDateTime.now());
         order.setShippingAddress(requestDto.shippingAddress());
         orderRepository.save(order);
@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto updateStatus(UpdateOrderRequestDto requestDto, Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(()
-            -> new EntityNotFoundException("Order not found"));
+                -> new EntityNotFoundException("Order not found"));
         order.setStatus(requestDto.status());
         return orderMapper.toDto(orderRepository.save(order));
     }

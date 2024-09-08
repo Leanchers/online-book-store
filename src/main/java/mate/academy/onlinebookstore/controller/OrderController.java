@@ -56,7 +56,7 @@ public class OrderController {
 
     @GetMapping("/{id}/items")
     @Operation(summary = "Get items of order",
-        description = "Get a list of items for order of authorized user")
+            description = "Get a list of items for order of authorized user")
     public List<OrderItemDto> getOrder(Authentication authentication, @PathVariable Long id) {
         User user = getUser(authentication);
         return orderService.getAllOrderItems(id, user.getId());
@@ -64,7 +64,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}/items/{itemId}")
     @Operation(summary = "Get item",
-        description = "Get an item by id")
+            description = "Get an item by id")
     public OrderItemDto getOrderItem(Authentication authentication, @PathVariable Long orderId,
                                      @PathVariable Long itemId) {
         User user = getUser(authentication);
