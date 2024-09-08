@@ -2,6 +2,7 @@ package mate.academy.onlinebookstore.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.order.CreateOrderRequestDto;
@@ -34,22 +35,20 @@ public class OrderController {
     @PostMapping
     @Operation(summary = "Create order", description = "Create order from shopping cart")
     public OrderDto createOrder(Authentication authentication,
-                                @RequestBody CreateOrderRequestDto requestDto) {
-        User user = getUser(authentication);
-        return orderService.createOrder(requestDto, user.getId());
+                                @RequestBody @Valid CreateOrderRequestDto requestDto) {
+        return orderService.createOrder(requestDto, getUserId(authentication));
     }
 
     @GetMapping
     @Operation(summary = "Get all orders", description = "Get a list of orders for authorized user")
     public List<OrderDto> getOrders(Pageable pageable, Authentication authentication) {
-        User user = getUser(authentication);
-        return orderService.getOrders(pageable, user.getId());
+        return orderService.getOrders(pageable, getUserId(authentication));
     }
 
     @PatchMapping("/{id}/")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update status of order", description = "Update status of order by Admin")
-    public OrderDto updateOrder(@RequestBody UpdateOrderRequestDto requestDto,
+    public OrderDto updateOrder(@RequestBody @Valid UpdateOrderRequestDto requestDto,
                                 @PathVariable Long id) {
         return orderService.updateStatus(requestDto, id);
     }
@@ -58,8 +57,7 @@ public class OrderController {
     @Operation(summary = "Get items of order",
             description = "Get a list of items for order of authorized user")
     public List<OrderItemDto> getOrder(Authentication authentication, @PathVariable Long id) {
-        User user = getUser(authentication);
-        return orderService.getAllOrderItems(id, user.getId());
+        return orderService.getAllOrderItems(id, getUserId(authentication));
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
@@ -67,11 +65,11 @@ public class OrderController {
             description = "Get an item by id")
     public OrderItemDto getOrderItem(Authentication authentication, @PathVariable Long orderId,
                                      @PathVariable Long itemId) {
-        User user = getUser(authentication);
-        return orderService.getOrderItem(itemId, orderId, user.getId());
+        return orderService.getOrderItem(itemId, orderId, getUserId(authentication));
     }
 
-    private static User getUser(Authentication authentication) {
-        return (User) authentication.getPrincipal();
+    private static Long getUserId(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
     }
 }
