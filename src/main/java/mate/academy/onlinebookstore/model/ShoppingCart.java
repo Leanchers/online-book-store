@@ -1,5 +1,6 @@
 package mate.academy.onlinebookstore.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,7 +27,9 @@ public class ShoppingCart {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private User user;
-    @OneToMany(mappedBy = "shoppingCart", orphanRemoval = true)
+    @OneToMany(mappedBy = "shoppingCart",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<CartItem> cartItems;
     @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isDeleted = false;

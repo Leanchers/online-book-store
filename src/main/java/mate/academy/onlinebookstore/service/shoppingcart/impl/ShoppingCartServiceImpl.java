@@ -78,7 +78,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void deleteCartItem(Long itemId, Long userId) {
         ShoppingCart shoppingCart = findShoppingCartByUserId(userId);
         CartItem cartItem = getCartItem(shoppingCart, itemId);
+        shoppingCart.getCartItems().remove(cartItem);
         cartItemRepository.delete(cartItem);
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart findShoppingCartByUserId(Long userId) {
