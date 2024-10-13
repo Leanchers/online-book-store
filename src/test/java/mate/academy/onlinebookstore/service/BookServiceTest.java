@@ -36,6 +36,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
+    private static Book book;
+    private static BookDto bookDto;
     @Mock
     private BookRepository bookRepository;
     @Mock
@@ -44,8 +46,6 @@ public class BookServiceTest {
     private BookSpecificationBuilder bookSpecificationBuilder;
     @InjectMocks
     private BookServiceImpl bookService;
-    private static Book book;
-    private static BookDto bookDto;
 
     @BeforeAll
     static void setUp() {
@@ -73,9 +73,8 @@ public class BookServiceTest {
     @Test
     @DisplayName("""
         Save book into DB and return BookDto
-        """)
+            """)
     void save_ValidRequestDto_ReturnsBookDto() {
-        BookDto expected = bookDto;
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setTitle("title");
         requestDto.setAuthor("author");
@@ -84,6 +83,7 @@ public class BookServiceTest {
         requestDto.setDescription("description");
         requestDto.setCoverImage("cover image");
         requestDto.setCategoryIds(Set.of(1L));
+        BookDto expected = bookDto;
         Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
         Mockito.when(bookRepository.save(book)).thenReturn(book);
         Mockito.when(bookMapper.toDto(book)).thenReturn(expected);
@@ -96,7 +96,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("""
         Find all books containing in DB
-        """)
+            """)
     void findAll_ReturnsListOfBookDto() {
         List<BookDto> expected = List.of(bookDto);
         Page<Book> page = new PageImpl<>(List.of(book));
@@ -112,7 +112,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("""
     Should find Book by ID and return BookDto
-    """)
+            """)
     void findById_ValidId_ReturnsBookDto() {
         BookDto expected = bookDto;
 
@@ -127,7 +127,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("""
     Should throw EntityNotFoundException when Book not found by ID
-    """)
+            """)
     void findById_InvalidId_ThrowsEntityNotFoundException() {
         Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -185,14 +185,13 @@ public class BookServiceTest {
     @DisplayName("Should return list of BookDto when searching with parameters")
     void search_WithValidParameters_ReturnsListOfBookDto() {
         BookSearchParametersDto searchParams = new BookSearchParametersDto(
-            null,
-            new String[]{"author"},
-            null,
-            null,
-            null
-            );
+                null,
+                new String[]{"author"},
+                null,
+                null,
+                null
+                );
         Pageable pageable = PageRequest.of(0, 10);
-        List<BookDto> expected = List.of(bookDto);
         Page<Book> page = new PageImpl<>(List.of(book));
         Specification<Book> bookSpecification = Mockito.mock(Specification.class);
 
@@ -200,6 +199,7 @@ public class BookServiceTest {
         Mockito.when(bookRepository.findAll(eq(bookSpecification), eq(pageable))).thenReturn(page);
         Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
 
+        List<BookDto> expected = List.of(bookDto);
         List<BookDto> actual = bookService.search(searchParams, pageable);
 
         assertEquals(expected, actual);
@@ -210,13 +210,13 @@ public class BookServiceTest {
     void getBookByCategoryId_ReturnsListOfBookDtoWithoutCategoryIds() {
         Pageable pageable = PageRequest.of(0, 10);
         BookDtoWithoutCategoryIds bookDtoWithoutCategoryIds = new BookDtoWithoutCategoryIds(
-            1L,
-            "title",
-            "author",
-            "9781234567897",
-            BigDecimal.valueOf(19.99),
-            "description",
-            "cover image"
+                1L,
+                "title",
+                "author",
+                "9781234567897",
+                BigDecimal.valueOf(19.99),
+                "description",
+                "cover image"
         );
         List<BookDtoWithoutCategoryIds> expected = List.of(bookDtoWithoutCategoryIds);
         Mockito.when(bookRepository.findAllByCategoryId(pageable, 1L)).thenReturn(List.of(book));
