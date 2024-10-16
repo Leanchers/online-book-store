@@ -71,10 +71,9 @@ public class BookRepositoryTest {
 
         List<Book> expected = List.of(book1, book2);
 
-        Long categoryId = 1L;
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<Book> actual = bookRepository.findAllByCategoryId(pageable, categoryId);
+        List<Book> actual = bookRepository.findAllByCategoryId(pageable, category.getId());
 
         assertNotNull(actual);
 
