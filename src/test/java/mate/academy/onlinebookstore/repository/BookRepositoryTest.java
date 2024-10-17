@@ -47,26 +47,26 @@ public class BookRepositoryTest {
         Category category = new Category();
         category.setId(1L);
         category.setName("name1");
-        category.setDescription("description1");
+        category.setDescription("FirstDescription");
 
         Book book1 = new Book();
         book1.setId(1L);
-        book1.setTitle("title1");
-        book1.setAuthor("author1");
+        book1.setTitle("FirstTitle");
+        book1.setAuthor("FirstAuthor");
         book1.setIsbn("9781234567801");
         book1.setPrice(BigDecimal.valueOf(10.99));
-        book1.setDescription("description1");
-        book1.setCoverImage("cover_image1");
+        book1.setDescription("FirstDescription");
+        book1.setCoverImage("FirstCover_image");
         book1.setCategories(Set.of(category));
 
         Book book2 = new Book();
         book2.setId(2L);
-        book2.setTitle("title2");
-        book2.setAuthor("author2");
+        book2.setTitle("SecondTitle");
+        book2.setAuthor("SecondAuthor");
         book2.setIsbn("9781234567802");
         book2.setPrice(BigDecimal.valueOf(20.99));
-        book2.setDescription("description2");
-        book2.setCoverImage("cover_image2");
+        book2.setDescription("SecondDescription");
+        book2.setCoverImage("SecondCover_image");
         book2.setCategories(Set.of(category));
 
         List<Book> expected = List.of(book1, book2);

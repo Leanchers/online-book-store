@@ -1,5 +1,8 @@
 package mate.academy.onlinebookstore.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,7 +20,6 @@ import mate.academy.onlinebookstore.dto.category.CategoryDto;
 import mate.academy.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import mate.academy.onlinebookstore.dto.category.UpdateCategoryRequestDto;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -95,9 +97,9 @@ public class CategoryControllerTest {
 
         CategoryDto actual = objectMapper
                 .readValue(result.getResponse().getContentAsString(), CategoryDto.class);
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.id());
-        Assertions.assertEquals(expected.name(), actual.name());
+        assertNotNull(actual);
+        assertNotNull(actual.id());
+        assertEquals(expected.name(), actual.name());
     }
 
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
@@ -112,8 +114,8 @@ public class CategoryControllerTest {
         CategoryDto[] actual = objectMapper
             .readValue(result.getResponse().getContentAsString(), CategoryDto[].class);
 
-        Assertions.assertTrue(actual.length > 0);
-        Assertions.assertEquals("name1", actual[0].name());
+        assertTrue(actual.length > 0);
+        assertEquals("name1", actual[0].name());
     }
 
     @WithMockUser(username = "user", roles = {"USER", "ADMIN"})
@@ -128,9 +130,9 @@ public class CategoryControllerTest {
         CategoryDto actual = objectMapper
                 .readValue(result.getResponse().getContentAsString(), CategoryDto.class);
 
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals(1L, actual.id());
-        Assertions.assertEquals("name1", actual.name());
+        assertNotNull(actual);
+        assertEquals(1L, actual.id());
+        assertEquals("name1", actual.name());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -153,8 +155,8 @@ public class CategoryControllerTest {
         CategoryDto actual = objectMapper
                 .readValue(result.getResponse().getContentAsString(), CategoryDto.class);
 
-        Assertions.assertNotNull(actual);
-        Assertions.assertEquals("Updated Category", actual.name());
+        assertNotNull(actual);
+        assertEquals("Updated Category", actual.name());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -186,7 +188,7 @@ public class CategoryControllerTest {
             .readValue(result.getResponse().getContentAsString(),
                 BookDtoWithoutCategoryIds[].class);
 
-        Assertions.assertTrue(actual.length > 0);
-        Assertions.assertEquals("title1", actual[0].title());
+        assertTrue(actual.length > 0);
+        assertEquals("FirstTitle", actual[0].title());
     }
 }
