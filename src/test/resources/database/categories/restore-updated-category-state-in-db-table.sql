@@ -1,0 +1,1 @@
+UPDATE categories SET name = 'category1' WHERE id = 1;
