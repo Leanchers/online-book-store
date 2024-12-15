@@ -8,7 +8,7 @@
 		<version>3.3.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>mate.academy</groupId>
+	<groupId>lada</groupId>
 	<artifactId>online-book-store</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>online-book-store</name>

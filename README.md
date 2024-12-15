@@ -6,11 +6,12 @@ This application supports CRUD (Create, Read, Update, Delete) operations, advanc
 
 ## Technologies and tools
 
-- **Spring Boot** - 
+- **Java 17**
+- **Spring Boot 3.3.0** - 
 A framework simplifies the configuration and customization of the application, allowing to quickly start development.
-- **Spring Security** - Ensures secure access to the API through authorization and authentication.
+- **Spring Security 6.3.1** - Ensures secure access to the API through authorization and authentication.
 - **Spring Data JPA** - A part of the Spring ecosystem that simplifies data management using Java Persistence API.
-- **MySQL** - Used as the database in the production environment.
+- **MySQL 8.0.33** - Used as the database in the production environment.
 - **Swagger** - Automatically generates API documentation.
 - **Docker** - Platform for application containerization.
 - **Liquibase** - Manages database migrations and schema versioning.
